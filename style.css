@@ -43,9 +43,9 @@ body{
     background: rgba(0, 0, 0, 0.5);
 
 }
-/*.clear{
+.clear{
     display:none;
-}*/
+}
 
 .top{
     width:100%;
@@ -84,7 +84,7 @@ ul{
 }
 .gray-box{
     width: 100%;
-    margin-top: 3%;
+    margin-top: 2%;
     height: 4rem;
     display:flex;
     flex-wrap: wrap;
@@ -95,7 +95,7 @@ ul{
 }
 .white-box{
     width: 100%;
-    margin-top: 3%;
+    margin-top: 2%;
     height: 4rem;
     display:flex;
     flex-wrap: wrap;
@@ -106,22 +106,32 @@ ul{
 .red-box{
     width: 100%;
     height: 6rem;
-    margin-top: 3%;
+    margin-top: 2%;
     display:flex;
     flex-direction:row;
     flex-wrap: wrap;
     align-items: center;
     background-color:#FFDEDE;
-   
+       
 }
 
-.message{
-    font-size:14px;
+time{
+   
+    color:#b2a7a7;
+}
+b{
+    font-weight: bold;
+}
+
+.message {
+    width: 100%;
+    margin: 2%;
+    font-size:17px;
     font-weight:400;
     color:#000000;
-    margin-left: 8px;
-    line-height: 20px;
-
+    line-height: 25px;
+    text-align: justify;
+   
 }
 
 .sidebar{
@@ -135,10 +145,10 @@ ul{
    
 
 }
-/*.hidden{
+.hidden{
     display:none
 
-}*/
+}
 .contacts-title{
     width: 100%;
     height: 84px;
@@ -185,7 +195,7 @@ ul{
     
    
 }
-.status{
+.chat-status{
     width:100%;
     height: 66px;
     display: flex;
@@ -194,17 +204,17 @@ ul{
     justify-content: center;
     
 }
-.status h1{
+.chat-status h1{
     font-weight: 700;
     font-size:16px;
     text-align:center;
 
 }
 
-/*.mark{
+.mark{
    display:none;
     
-}*/
+}
 
 .bottom{
     width:100%;
