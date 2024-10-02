@@ -28,7 +28,7 @@
                 <ion-icon onclick="accessSidebar()" class="right" name="people"></ion-icon>                   
             </header>
             <ul>
-                <li class="gray-box status">
+                <li class="gray-box statusMessage">
                    <p class="message"><time datetime="2024-10-01 15:01:00">(15:01:00)</time> <b class="name">João</b> entra na sala...</p> 
                 </li>
                 <li class="white-box chat">
@@ -40,7 +40,7 @@
             </ul>          
             <footer class="bottom">
                 <div class="messageBox">
-                    <textarea class="textarea" name="textarea" id="onlyTextarea" placeholder="Escreva aqui..."></textarea>
+                    <textarea class="textarea" name="textarea" cols="15" id="onlyTextarea" placeholder="Escreva aqui..." ></textarea>
                     <span>Enviando para Todos (público)</span>
                 </div>
                 <ion-icon onclick="message()" class="arrowhead" name="paper-plane-outline"></ion-icon>
@@ -50,24 +50,24 @@
                     <h1>Escolha um contato para enviar mensagem:</h1>
                 </div>
                 <div class="contacts-options">
-                    <div class="options">
+                    <div class="options" onclick="recipient(this)">
                         <ion-icon class="svg" name="people"></ion-icon>
                         <p>Todos</p>
-                        <svg class="mark" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
+                        <svg class="mark invisible" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
                             <path d="M11 2L4.7 9L2 6.375" stroke="#28BB25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>   
                     </div>
-                    <div class="options">
+                    <div class="options" onclick="recipient(this)">
                         <ion-icon class="svg" name="person-circle"></ion-icon>
-                        <p>João</p>
-                        <svg class="mark" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
+                        <p class="name">João</p>
+                        <svg class="mark invisible" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
                             <path d="M11 2L4.7 9L2 6.375" stroke="#28BB25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="options">
+                    <div class="options" onclick="recipient(this)">
                         <ion-icon class="svg" name="person-circle"></ion-icon>
-                        <p>Maria</p> 
-                        <svg class="mark" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
+                        <p class="name">Maria</p> 
+                        <svg class="mark invisible" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
                             <path d="M11 2L4.7 9L2 6.375" stroke="#28BB25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
@@ -76,18 +76,18 @@
                     <h1>Escolha a visibilidade:</h1>
                 </div>
                 <div class="contacts-options">
-                    <div class="options">
+                    <div class="options" onclick="statusMode(this)">
                         <ion-icon class="svg" name="lock-open"></ion-icon>
-                        <p>Público</p>
-                        <svg class="mark" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
+                        <p class="public">Público</p>
+                        <svg class="mark invisible" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
                             <path d="M11 2L4.7 9L2 6.375" stroke="#28BB25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                       
                     </div>
-                    <div class="options">
+                    <div class="options" onclick="statusMode(this)">
                         <ion-icon class="svg" name="lock-closed"></ion-icon>
-                        <p>Reservadamente</p> 
-                        <svg class="mark" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
+                        <p class="private">Reservadamente</p> 
+                        <svg class="mark invisible" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
                             <path d="M11 2L4.7 9L2 6.375" stroke="#28BB25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                        

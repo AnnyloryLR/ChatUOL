@@ -30,7 +30,7 @@ body{
     flex-direction: column;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     position: relative;
-  
+    
 }
 
 .shadow{
@@ -78,16 +78,23 @@ body{
 
 ul{
     width: 100%;
+    height: 73%;
     margin-top:30%;
     position: absolute;
     z-index: 1;
+    overflow-y: scroll;
+    
+}
+ul::-webkit-scrollbar{
+    display: none;
 }
 .gray-box{
     width: 100%;
     margin-top: 2%;
-    height: 4rem;
+    min-height: 4rem;
     display:flex;
     flex-wrap: wrap;
+    flex-direction: row;
     align-items: center;
     background-color:#DCDCDC;
   
@@ -96,16 +103,17 @@ ul{
 .white-box{
     width: 100%;
     margin-top: 2%;
-    height: 4rem;
-    display:flex;
-    flex-wrap: wrap;
+    min-height: 4rem;
+    display:flex; 
+    flex-direction:row;   
+    word-break: break-all;
     align-items: center;
     background-color:#FFFFFF;
    
 }
 .red-box{
     width: 100%;
-    height: 6rem;
+    min-height: 4rem;
     margin-top: 2%;
     display:flex;
     flex-direction:row;
@@ -131,6 +139,7 @@ b{
     color:#000000;
     line-height: 25px;
     text-align: justify;
+    flex-wrap: wrap;
    
 }
 
@@ -211,7 +220,7 @@ b{
 
 }
 
-.mark{
+.invisible{
    display:none;
     
 }
@@ -226,6 +235,7 @@ b{
     position:absolute;
     top:87%;
     bottom:-1px;
+    
 }
 
 
