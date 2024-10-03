@@ -1,7 +1,7 @@
 
 let userName= prompt('Por favor, insira um nome:')
-let recipientName= ""
-let messageMode=""
+let recipientName= "Todos"
+let messageMode="Público"
 
       
 
@@ -28,7 +28,7 @@ function message(){
     let messageList = document.querySelector('ul')
     
     
-    if(messageMode === 'Público'){
+    if(messageMode === 'Público' && recipientName !== ""){
       messageList.innerHTML+=
       ` <li class="white-box chat">
           <p class="message"><time datetime="2024-10-01 15:01:00">(15:01:00)</time> <b>${userName}</b> para <b>${recipientName}</b>: ${message}</p>
@@ -37,9 +37,7 @@ function message(){
       document.querySelector('.textarea').value = ""
   
 
-    }
-
-    else{
+    } else if(messageMode === 'Reservadamente' && recipientName !== "" && recipientName !== 'Todos'){
 
       messageList.innerHTML+=
       `<li class="red-box private">
@@ -47,7 +45,16 @@ function message(){
       </li>`
       document.querySelector('.textarea').value = ""
 
+    } else{ 
+      alert("Por favor, escolha um Contato e a Visibilidade")
+      document.querySelector('.textarea').value = ""
+
     }
+
+    console.log(recipientName)
+    console.log(messageMode)
+    listRefresh()
+  //*******Para atualizar a lista: console.log(messageList.lastChild)
    
 }
 
@@ -74,39 +81,39 @@ function recipient(element){
   }  else{
     element.classList.remove('selected');
     checked.classList.add('invisible');
+    //return recipientName = ""
 
   }
 
 
 }
 
-function statusMode(element){
-  let selectedBefore = document.querySelector('.selected2');
-  let selectedNow =element.classList.value;
-  let checked = element.querySelector('.mark');
-  let chosen2 = element.querySelector('.status');
+function statusMode(element2){
+  let selectedBefore2 = document.querySelector('.selected2');
+  let selectedNow2 =element2.classList.value;
+  let checked2 = element2.querySelector('.mark2');
+  let chosen2 = element2.querySelector('.status');
 
   
 
-  if(selectedBefore !== null && selectedNow.includes('selected2') === false){
-    let checkedBefore = selectedBefore.querySelector('.mark');
-    selectedBefore.classList.remove('selected2');
-    checkedBefore.classList.add('invisible');
-    element.classList.add('selected2');
-    checked.classList.remove('invisible');
+  if(selectedBefore2 !== null && selectedNow2.includes('selected2') === false){
+    let checkedBefore2 = selectedBefore2.querySelector('.mark2');
+    selectedBefore2.classList.remove('selected2');
+    checkedBefore2.classList.add('invisible2');
+    element2.classList.add('selected2');
+    checked2.classList.remove('invisible2');
     return messageMode = chosen2.innerHTML
-
-  
  
-
-  } else if(selectedBefore === null){
-    element.classList.add('selected2');
-    checked.classList.remove('invisible');
+ 
+  } else if(selectedBefore2 === null){
+    element2.classList.add('selected2');
+    checked2.classList.remove('invisible2');
     return messageMode = chosen2.innerHTML;
 
   }  else{
-    element.classList.remove('selected2');
-    checked.classList.add('invisible');
+    element2.classList.remove('selected2');
+    checked2.classList.add('invisible2');
+    //return messageMode = ""
 
   }
 
@@ -114,4 +121,21 @@ function statusMode(element){
 }
 
 
+function listRefresh(){
+
+  /// reload the page a cada 3s
+  /// a cada 5s atualizar status de quem esta na sala
+
+  /// manter a ultima mensagem visivel
+  
+  let messageList = document.querySelector('ul');
+  let lastMessage = messageList.lastChild
+  lastMessage.scrollIntoView();
+
+
+}
+
+function reloading() {
+  location.reload();
+}
 

@@ -1,10 +1,6 @@
 *{
     box-sizing: border-box;
-}
-
-html{
     font-family:"Roboto";
- 
 }
 
 body{
@@ -57,6 +53,7 @@ body{
     position:absolute;
     top:0px;
     bottom: 80px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
    
     
 }
@@ -139,7 +136,7 @@ b{
     color:#000000;
     line-height: 25px;
     text-align: justify;
-    flex-wrap: wrap;
+  
    
 }
 
@@ -224,6 +221,11 @@ b{
    display:none;
     
 }
+.invisible2{
+    display:none;
+     
+ }
+ 
 
 .bottom{
     width:100%;
@@ -235,6 +237,7 @@ b{
     position:absolute;
     top:87%;
     bottom:-1px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     
 }
 
@@ -247,6 +250,9 @@ b{
 textarea{
      width:299px;
     height: 34px;
+    font-size:17px;
+    font-weight:400;
+    color:#000000;
     border:none;
     resize: none;
     outline: none;
