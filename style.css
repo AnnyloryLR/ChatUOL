@@ -73,7 +73,7 @@ body{
 
 }
 
-ul{
+.messages{
     width: 100%;
     height: 73%;
     margin-top:30%;
@@ -82,7 +82,7 @@ ul{
     overflow-y: scroll;
     
 }
-ul::-webkit-scrollbar{
+.messages::-webkit-scrollbar{
     display: none;
 }
 
@@ -203,6 +203,7 @@ b{
     
    
 }
+
 .chat-status{
     width:100%;
     height: 66px;
