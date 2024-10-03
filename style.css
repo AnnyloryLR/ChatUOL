@@ -85,6 +85,7 @@ ul{
 ul::-webkit-scrollbar{
     display: none;
 }
+
 .gray-box{
     width: 100%;
     margin-top: 2%;
@@ -131,11 +132,12 @@ b{
 .message {
     width: 100%;
     margin: 2%;
-    font-size:17px;
+    font-size:16px;
     font-weight:400;
     color:#000000;
     line-height: 25px;
     text-align: justify;
+    word-break:break-word;
   
    
 }
@@ -254,8 +256,8 @@ textarea{
     font-weight:400;
     color:#000000;
     border:none;
-    resize: none;
-    outline: none;
+    resize:none;
+    outline:none;
     
 }
 textarea::placeholder{
@@ -263,6 +265,14 @@ textarea::placeholder{
     font-size:18px;
     color:#000000;
     font-style: italic;
+}
+
+textarea:focus{
+    border:#000000 solid 2px;
+    border-radius: 5px;
+}
+textarea::-webkit-scrollbar{
+    display: none;
 }
 span{
     font-weight: 300;

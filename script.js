@@ -26,7 +26,7 @@ function message(){
     let getMessage = document.querySelector('.textarea')
     let message = getMessage.value
     let messageList = document.querySelector('ul')
-    
+        
     
     if(messageMode === 'Público' && recipientName !== ""){
       messageList.innerHTML+=
@@ -44,7 +44,7 @@ function message(){
         <p class="message"><time datetime="2024-10-01 15:01:00">(15:01:00)</time> <b class="name">${userName}</b> reservadamente para <b class="recipient">${recipientName}</b>: ${message}</p> 
       </li>`
       document.querySelector('.textarea').value = ""
-
+     
     } else{ 
       alert("Por favor, escolha um Contato e a Visibilidade")
       document.querySelector('.textarea').value = ""
@@ -81,8 +81,7 @@ function recipient(element){
   }  else{
     element.classList.remove('selected');
     checked.classList.add('invisible');
-    //return recipientName = ""
-
+ 
   }
 
 
@@ -93,7 +92,6 @@ function statusMode(element2){
   let selectedNow2 =element2.classList.value;
   let checked2 = element2.querySelector('.mark2');
   let chosen2 = element2.querySelector('.status');
-
   
 
   if(selectedBefore2 !== null && selectedNow2.includes('selected2') === false){
@@ -113,11 +111,24 @@ function statusMode(element2){
   }  else{
     element2.classList.remove('selected2');
     checked2.classList.add('invisible2');
-    //return messageMode = ""
 
   }
+ 
 
+}
 
+function statusText(){
+  let modeMessage = document.querySelector('span');
+
+  if(messageMode === "Reservadamente" && recipientName !== "Todos"){
+     modeMessage.innerHTML = `Enviando para ${recipientName} (reservadamente)`;
+
+  } else if(messageMode === "Reservadamente" && recipientName === "Todos"){
+     alert("Mensagens em modo reservado não podem ser enviadas para Todos");
+
+  } else{
+    modeMessage.innerHTML = `Enviando para ${recipientName} (público)`;
+  }
 }
 
 
