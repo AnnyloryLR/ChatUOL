@@ -6,7 +6,7 @@ let chat = [{from:"João", to: "Todos", text:"entra na sala...", type:"status", 
             {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}
 ]
 
-let users = [{name:"Todos"},{name:"João"},{name:"Maria"}]
+let users = [{name:"João"},{name:"Maria"}]
 
 let roomID = "5c28a11f-e350-4b3f-97dd-ddeb552a1465"
 let userName= prompt('Por favor, insira um nome:')
@@ -44,13 +44,14 @@ function addUser(){
       `<li class="options" onclick="recipient(this); statusText()">
         <ion-icon class="svg" name="people"></ion-icon>
         <p class="name">${users[index].name}</p>
-        <svg class="mark" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
+        <svg class="mark invisible" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
           <path d="M11 2L4.7 9L2 6.375" stroke="#28BB25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>   
       </li>`
 
     
   }
+  console.log(users)
 
 }
 
@@ -112,8 +113,7 @@ function messageRender(){
     }
     
         
-    //listRefresh()
-    
+    listRefresh();
    
 }
 
@@ -193,7 +193,7 @@ function statusText(){
 
 function listRefresh(){
 
-  let messageList = document.querySelector('ul');
+  let messageList = document.querySelector('.messages');
   let lastMessage = messageList.lastChild
   lastMessage.scrollIntoView();
 
