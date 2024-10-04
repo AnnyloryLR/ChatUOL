@@ -8,8 +8,9 @@ let chat = [{from:"João", to: "Todos", text:"entra na sala...", type:"status", 
 
 let users = [{name:"João"},{name:"Maria"}]
 
-let roomID = "5c28a11f-e350-4b3f-97dd-ddeb552a1465"
-let userName= prompt('Por favor, insira um nome:')
+const roomID = "5c28a11f-e350-4b3f-97dd-ddeb552a1465"
+const adress = "https://mock-api.driven.com.br/api/v6/uol/participants/" + roomID
+let user= {name:prompt('Por favor, insira um nome:')}
 let recipientName= "Todos"
 let messageMode="Público"
 
@@ -33,9 +34,14 @@ function hideSidebar(){
 }
 
 function addUser(){
+  const promise = axios.post(adress, user)
+  promise.then(processSuccess)
+  promise.catch(processError)
+
   let usersList = document.querySelector('.userList');
   usersList.innerHTML = ""
-  users.push({name:userName});
+  users.push(user);
+
 
 
   for(let index=0; index < users.length; index++){
@@ -51,7 +57,7 @@ function addUser(){
 
     
   }
-  console.log(users)
+
 
 }
 
@@ -63,13 +69,13 @@ function getMessage(){
   
   if(messageMode === 'Público'){
     type = "message"
-    chat.push({from:userName, to: recipientName, text:message, type:type, time:"08:04:50"})
+    chat.push({from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
 
   } else{
 
     type = "private_message"
 
-    chat.push({from:userName, to: recipientName, text:message, type:type, time:"08:04:50"})
+    chat.push({from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
 
   }
 
@@ -203,5 +209,16 @@ function reloading() {
   location.reload();
 }
 
+function processSuccess(){
+  alert("Sucesso!")
+
+}
+
+function processError(){
+  alert("Houve um erro, tente novamente mais tarde!")
+
+}
+
 messageRender()
 addUser()
+
