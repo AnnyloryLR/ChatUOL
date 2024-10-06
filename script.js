@@ -1,4 +1,3 @@
-
 let chat = [{from:"João", to: "Todos", text:"entra na sala...", type:"status", time:"08:01:50"},
             {from:"João", to: "Todos", text:"Bom dia", type:"message", time:"08:02:50"},
             {from:"Maria", to: "João", text:"Oi João :)",type:"private_message", time:"08:03:50" },
@@ -6,15 +5,26 @@ let chat = [{from:"João", to: "Todos", text:"entra na sala...", type:"status", 
             {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}
 ]
 
-let users = [{name:"João"},{name:"Maria"}]
+const users = [{name:"João"},{name:"Maria"}]
+
 
 const roomID = "5c28a11f-e350-4b3f-97dd-ddeb552a1465"
-const adress = "https://mock-api.driven.com.br/api/v6/uol/participants/" + roomID
-let user= {name:prompt('Por favor, insira um nome:')}
+const adress = "https://mock-api.driven.com.br/api/v6/uol/"
+
 let recipientName= "Todos"
 let messageMode="Público"
 
-      
+
+
+
+/*function postMessages(){
+  const sendMessages = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages/" + roomID, chat);
+  sendMessages.then(processSuccess);
+  sendMessages.catch(processError);
+
+
+}postMessages()*/
+     
 
 
 function accessSidebar(){
@@ -34,22 +44,27 @@ function hideSidebar(){
 }
 
 function addUser(){
-  const promise = axios.post(adress, user)
-  promise.then(processSuccess)
-  promise.catch(processError)
+  let user= {name:prompt('Por favor, insira um nome:')}
+    
+  users.push(user);
+  
+  addUsersToServer()
 
+}
+
+function addUsersToServer(){
   let usersList = document.querySelector('.userList');
   usersList.innerHTML = ""
-  users.push(user);
-
-
-
-  for(let index=0; index < users.length; index++){
+  
+  for(let i=0; i < users.length; i++){
+    promise = axios.post(adress+'participants/'+roomID, users[i])
+    promise.then(processSuccess);
+    promise.catch(processError);
 
     usersList.innerHTML+=
       `<li class="options" onclick="recipient(this); statusText()">
         <ion-icon class="svg" name="people"></ion-icon>
-        <p class="name">${users[index].name}</p>
+        <p class="name">${users[i].name}</p>
         <svg class="mark invisible" width="9" height="7" margin viewBox="0 0 13 11" fill="none"           xmlns="http://www.w3.org/2000/svg">
           <path d="M11 2L4.7 9L2 6.375" stroke="#28BB25" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>   
@@ -58,8 +73,8 @@ function addUser(){
     
   }
 
-
 }
+
 
 function getMessage(){
  
@@ -209,16 +224,16 @@ function reloading() {
   location.reload();
 }
 
-function processSuccess(){
+function processSuccess(answer){
   alert("Sucesso!")
+  console.log(answer)
 
 }
 
-function processError(){
+function processError(error){
   alert("Houve um erro, tente novamente mais tarde!")
+  console.log(error)
 
 }
-
-messageRender()
 addUser()
-
+messageRender()
