@@ -5,26 +5,14 @@ let chat = [{from:"João", to: "Todos", text:"entra na sala...", type:"status", 
             {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}
 ]
 
-const users = [{name:"João"},{name:"Maria"}]
 
-
-const roomID = "5c28a11f-e350-4b3f-97dd-ddeb552a1465"
-const adress = "https://mock-api.driven.com.br/api/v6/uol/"
+let user= {name:prompt('Por favor, insira um nome:')};
+const users = [{name:"João"},{name:"Maria"}];
+const roomID = "5c28a11f-e350-4b3f-97dd-ddeb552a1465";
+const adress = "https://mock-api.driven.com.br/api/v6/uol/";
 
 let recipientName= "Todos"
 let messageMode="Público"
-
-
-
-
-/*function postMessages(){
-  const sendMessages = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages/" + roomID, chat);
-  sendMessages.then(processSuccess);
-  sendMessages.catch(processError);
-
-
-}postMessages()*/
-     
 
 
 function accessSidebar(){
@@ -43,14 +31,6 @@ function hideSidebar(){
 
 }
 
-function addUser(){
-  let user= {name:prompt('Por favor, insira um nome:')}
-    
-  users.push(user);
-  
-  addUsersToServer()
-
-}
 
 function addUsersToServer(){
   let usersList = document.querySelector('.userList');
@@ -72,6 +52,9 @@ function addUsersToServer(){
 
     
   }
+
+  return user;
+  
 
 }
 
@@ -132,7 +115,11 @@ function messageRender(){
       }
 
     }
-    
+
+    users.push(user);
+  
+    addUsersToServer()
+ 
         
     listRefresh();
    
@@ -225,15 +212,16 @@ function reloading() {
 }
 
 function processSuccess(answer){
-  alert("Sucesso!")
+  //alert("Sucesso!")
   console.log(answer)
 
 }
 
 function processError(error){
-  alert("Houve um erro, tente novamente mais tarde!")
+  //alert("Houve um erro, tente novamente mais tarde!")
   console.log(error)
 
 }
-addUser()
+
 messageRender()
+//setInterval(addUsersToServer,5000)
