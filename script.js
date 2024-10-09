@@ -76,51 +76,45 @@ function keepUserConnected(){
 
 }
 function processData(answer){
-  console.log(answer.data)
+  let data = answer.data
+
+  for(let n=0; n < data.length; n++){
+    chat.push(data[n])
+
+  }
+  messageRender()
+
+
 }
 
-function requestMessages(){
-  let messages = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages/5c28a11f-e350-4b3f-97dd-ddeb552a1465")
-
-
-
-
-
-  //for(let n=0; n< chat.length; n++){}
-
-  let messages = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages/5c28a11f-e350-4b3f-97dd-ddeb552a1465")
-
+function getMessages(){
+  let messages = axios.get(adress + "messages/"+ roomID);
+  messages.catch(processError);
+  messages.then(processData);
+  
  
-
-  messages.then(processData)
-  messages.catch(processError)
-
-
-
-
 }
 
-function getMessage(){ 
+function addMessage(){ 
 
   let getMessage = document.querySelector('.textarea');
   let message = getMessage.value;
   let type = "";
   
-  if(messageMode === 'Público'){
+  if(messageMode === 'Público'){chat.push
     type = "message"
-    chat.push({from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
+    axios.post(adress + "messages/"+ roomID, {from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
 
   } else{
 
     type = "private_message"
-
-    chat.push({from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
+    axios.post(adress + "messages/"+ roomID, {from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
 
   }
 
   document.querySelector('.textarea').value = ""
 
-  messageRender()
+  getMessages()
 
 
 }
@@ -134,7 +128,7 @@ function messageRender(){
       if(chat[i].type === "message"){
         messageList.innerHTML+=
         ` <li class="white-box chat">
-            <p class="message"><time datetime="2024-10-01 15:01:00">(15:01:00)</time> <b>${chat[i].from}</b> para <b>${chat[i].to}</b>: ${chat[i].text}</p>
+            <p class="message"><time datetime="2024-10-09 10:25:00">(${chat[i].time})</time> <b>${chat[i].from}</b> para <b>${chat[i].to}</b>: ${chat[i].text}</p>
           </li>`
        
   
@@ -142,14 +136,14 @@ function messageRender(){
   
         messageList.innerHTML+=
         `<li class="red-box private">
-          <p class="message"><time datetime="2024-10-01 15:01:00">(15:01:00)</time> <b class="name">${chat[i].from}</b> reservadamente para <b class="recipient">${chat[i].to}</b>: ${chat[i].text}</p> 
+          <p class="message"><time datetime="2024-10-09 10:25:00">(${chat[i].time})</time> <b class="name">${chat[i].from}</b> reservadamente para <b class="recipient">${chat[i].to}</b>: ${chat[i].text}</p> 
         </li>`
       
 
       } else{
         messageList.innerHTML+=
         `<li class="gray-box statusMessage">
-          <p class="message"><time datetime="2024-10-01 15:01:00">(15:01:00)</time> <b class="name">${chat[i].from}</b> ${chat[i].text}</p> 
+          <p class="message"><time datetime="2024-10-09 10:25:00">(${chat[i].time})</time> <b class="name">${chat[i].from}</b> ${chat[i].text}</p> 
         </li>`
 
 
@@ -261,5 +255,6 @@ function processError(error){
 }
 
 addUser()
-//setInterval(keepUserConnected, 5000)
-requestMessages()
+setInterval(keepUserConnected, 5000)
+getMessages()
+setInterval(reloading, 3000)
