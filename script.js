@@ -5,9 +5,9 @@ let chat = [{from:"João", to: "Todos", text:"entra na sala...", type:"status", 
             {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}
 ]
 
-
-let user= {name:prompt('Por favor, insira um nome:')};
 const users = [{name:"João"},{name:"Maria"}];
+let user= {name:prompt('Por favor, insira um nome:')};
+
 const roomID = "5c28a11f-e350-4b3f-97dd-ddeb552a1465";
 const adress = "https://mock-api.driven.com.br/api/v6/uol/";
 
@@ -31,13 +31,24 @@ function hideSidebar(){
 
 }
 
+function addUser(){
+  
+  users.push(user);
+  
+  addUsersToServer()
+
+  messageRender()
+
+  return user
+
+}
 
 function addUsersToServer(){
   let usersList = document.querySelector('.userList');
   usersList.innerHTML = ""
   
   for(let i=0; i < users.length; i++){
-    promise = axios.post(adress+'participants/'+roomID, users[i])
+    promise = axios.post(adress+'participants/'+roomID, users[i]);
     promise.then(processSuccess);
     promise.catch(processError);
 
@@ -53,14 +64,44 @@ function addUsersToServer(){
     
   }
 
-  return user;
-  
+}
+
+function keepUserConnected(){
+  for(let counter=0; counter < users.length; counter++){
+    promise = axios.post(adress+'participants/'+roomID, users[counter]);
+    promise.then(processSuccess);
+    promise.catch(processError);
+
+  }
+
+}
+function processData(answer){
+  console.log(answer.data)
+}
+
+function requestMessages(){
+  let messages = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages/5c28a11f-e350-4b3f-97dd-ddeb552a1465")
+
+
+
+
+
+  //for(let n=0; n< chat.length; n++){}
+
+  let messages = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages/5c28a11f-e350-4b3f-97dd-ddeb552a1465")
+
+ 
+
+  messages.then(processData)
+  messages.catch(processError)
+
+
+
 
 }
 
+function getMessage(){ 
 
-function getMessage(){
- 
   let getMessage = document.querySelector('.textarea');
   let message = getMessage.value;
   let type = "";
@@ -115,12 +156,8 @@ function messageRender(){
       }
 
     }
-
-    users.push(user);
-  
-    addUsersToServer()
  
-        
+       
     listRefresh();
    
 }
@@ -223,5 +260,6 @@ function processError(error){
 
 }
 
-messageRender()
-//setInterval(addUsersToServer,5000)
+addUser()
+//setInterval(keepUserConnected, 5000)
+requestMessages()
