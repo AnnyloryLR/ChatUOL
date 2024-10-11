@@ -1,16 +1,15 @@
 let messages = [{from:"João", to: "Todos", text:"entra na sala...", type:"status", time:"08:01:50"},
   {from:"João", to: "Todos", text:"Bom dia", type:"message", time:"08:02:50"},
-  {from:"Maria", to: "João", text:"Oi João :)",type:"message", time:"08:03:50" },
-  {from:"João", to: "Maria", text:"Oi Maria, tudo bem contigo?", type:"message", time:"08:04:50"},
-  {from:"Maria", to: "João", text:"Tudo e você, animado para começar o projeto?", type:"message", time:"08:04:50"}]
-
-let statusMessage= {}
-
-let users = [{name:"João"},{name:"Maria"}];
+  {from:"Maria", to: "João", text:"Oi João :)",type:"private_message", time:"08:03:50" },
+  {from:"João", to: "Maria", text:"Oi gatinha quer tc?", type:"private_message", time:"08:04:50"},
+  {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}]
+let chat = []
+let lastStatus = []
+let users = [{name:"Maria"},{name:"João"}];
 let user= addUser();
 
 
-const roomID = "603bf686-f2a1-46d9-9bbb-494c9b917adc";
+const roomID = "5a972b09-b6cb-423f-a5b1-857f07831167";
 const adress = "https://mock-api.driven.com.br/api/v6/uol/";
 
 let recipientName= "Todos"
@@ -19,14 +18,14 @@ let messageMode="Público"
 
 //users
 function processUserError(answer){
-  let condition = answer.response.data === 'Bad Request';
+  let condition = answer.status === '400';
   if(condition === true){
-      userName = {name:prompt('Por favor, insira outro nome:')};
       addUser();
   }
 
   else{
       alert("Ocorreu um erro inesperado, tente mais tarde!")
+      reloading()
 
     } 
 }
@@ -36,12 +35,12 @@ function addUser(){
   let conditionName = userName === null;
   if(conditionName === true){
     while(conditionName === true){
-      userName = {name:prompt('Por favor, insira um nome:')};
+      userName = {name:prompt('Por favor, insira outro nome:')};
       conditionName = userName === null;
     } 
   }
   
-  let postUser = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants/603bf686-f2a1-46d9-9bbb-494c9b917adc", userName)
+  let postUser = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants/5a972b09-b6cb-423f-a5b1-857f07831167", userName)
   postUser.then(processSuccess);
   postUser.catch(processUserError)
   users.push(userName)
@@ -105,17 +104,16 @@ function keepUsersConnected(){
 }
 
 //messages
-function addMessagesFromChat(){
+
+function processSuccessMessage(answer){
+  console.log(answer)
+  getMessages();
   
-    for(let c=0; c < messages.length; c++){
-   
-      let localMessage = axios.post(adress + "messages/"+ roomID, {from:messages[c].from, to:messages[c].to, text:messages[c].text, type:messages[c].type, time:messages[c].time})
-      localMessage.then(processSuccess)
-      localMessage.catch(processError) 
-    }
+}
 
-   messageRender();
-
+function processErrorMessage(error){
+  console.log(error);
+  reloading();
 }
 
 function addMessage(){ 
@@ -123,27 +121,40 @@ function addMessage(){
   let message = getMessage.value;
   let type = "";
 
-   
   if(messageMode === 'Público'){
     type = "message"
     let localMessage = axios.post(adress + "messages/"+ roomID, {from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
-    messages.push(localMessage);
-    localMessage.then(processSuccess)
-    localMessage.catch(processError)
+    localMessage.then(processSuccessMessage)
+    localMessage.catch(processErrorMessage)
+   
     
   } else{
     type = "private_message"
     let localMessage = axios.post(adress + "messages/"+ roomID, {from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
-    messages.push(localMessage);
-    localMessage.then(processSuccess)
-    localMessage.catch(processError)
+    localMessage.then(processSuccessMessage)
+    localMessage.catch(processErrorMessage)
+    
 
   }
 
-  document.querySelector('.textarea').value = ""
-
-  getMessages()
+   getMessage.value = "";
+   
+ 
 }  
+
+function addMessagesToServer(){
+  if(messages.length !== 0){
+    for(let c=0; c < messages.length; c++){
+      promiseUsers = axios.post(adress + "messages/" + roomID, messages[c]);
+      promiseUsers.then(processSuccess);
+      promiseUsers.catch(processError);
+    } 
+    
+  }
+  messages =[]
+  return messages
+
+}
 
 function getMessages(){
   let promise = axios.get(adress + "messages/"+ roomID);
@@ -153,20 +164,32 @@ function getMessages(){
 }
 
 function processData(answer){
-
   if(answer.data.length === 0){
-    addMessagesFromChat();
+    console.log("list from server is empty", answer.data)
+  
   } else{
     messages = answer.data;
     lastStatus = messages.filter(message => message.type === "status");
-    messages = messages.filter( message => message.type === "message" || message.type === "private_message");
-    statusMessage = lastStatus[lastStatus.length - 1]
+    messages = messages.filter( message => message.type === "message" || message.type === "private_message"); 
+    console.log("pegou a lista", messages)
+    addStatus()
     
-    addMessagesFromChat()
-    return messages, statusMessage; 
-     
-  } 
+    return messages, lastStatus;
+  }  
+  
+}
 
+function addStatus(){
+  let finalmessages =[];
+  lastStatus = lastStatus.slice((lastStatus.length - 10), lastStatus.length)
+ 
+  for(let g =0; g < messages.length; g++){
+    finalmessages.push(messages[g]);
+    finalmessages.push(lastStatus[g]);
+  }
+  messages = finalmessages;
+  messageRender()
+  return messages;
 }
 
 function messageRender(){ 
@@ -179,12 +202,15 @@ function messageRender(){
            <p class="message"><time datetime="2024-10-09 10:25:00">(${messages[i].time})</time> <b>${messages[i].from}</b> para <b>${messages[i].to}</b>: ${messages[i].text}</p>
          </li>`
      
-     } else if(messages[i].type === "private_message" && messages[i].from === user || messages[i].to === user){
+     } else if(messages[i].type === "private_message"){
+              if(messages[i].from === user || messages[i].to === user){
+                console.log(messages[i].from === user || messages[i].to === user)
  
        messageList.innerHTML+=`
          <li class="red-box private">
            <p class="message"><time datetime="2024-10-09 10:25:00">(${messages[i].time})</time> <b class="name">${messages[i].from}</b> reservadamente para <b class="recipient">${messages[i].to}</b>: ${messages[i].text}</p> 
          </li>`
+        }
 
      } else if(messages[i].type === "status"){
        messageList.innerHTML+=`
@@ -195,10 +221,8 @@ function messageRender(){
      } 
 
     }
-    
-  messages = []
+  
   listRefresh();
-  return messages
 
 }
 
@@ -209,9 +233,9 @@ function listRefresh(){
 
 }
 
-/*function reloading() {
+function reloading(){
   location.reload();
-}*/
+}
 
 function processSuccess(answer){
   console.log(answer)
@@ -313,12 +337,14 @@ function statusText(){
 }
 
 //start system 
-addUsersToServer()
-addMessagesFromChat()
+
+
+messageRender()
+getUsersFromServer()
 
 //keep system running
 
-setInterval(getMessages, 3000)
+//setInterval(getMessages, 10000)
 setInterval(keepUsersConnected, 5000)
 setInterval(getUsersFromServer, 10000)
 

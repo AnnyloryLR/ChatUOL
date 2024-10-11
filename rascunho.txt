@@ -38,7 +38,7 @@ function processError(){
   {from:"João", to: "Maria", text:"Oi gatinha quer tc?", type:"private_message", time:"08:04:50"},
   {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"},
   {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"},
-  {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}
+  {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}Lana
 ]
 
 let lastStatus = conversas.filter(messages => messages.type === "status")
@@ -55,4 +55,6 @@ console.log(conversas.slice((conversas.length - 2), conversas.length))
    novoArray = conversas.concat(lastStatus)
 
    console.log("This is a test", lastStatus,novoArray)*/
-   //https://mock-api.driven.com.br/api/v6/uol/messages/603bf686-f2a1-46d9-9bbb-494c9b917adc"
+   //https://mock-api.driven.com.br/api/v6/uol/messages/5a972b09-b6cb-423f-a5b1-857f07831167"
+
+//axios.post("https://mock-api.driven.com.br/api/v6/uol/messages/603bf686-f2a1-46d9-9bbb-494c9b917adc",{from:"Anny", to:"Deb", text:"Hallo, wie get's?", type:"message", time:"09:07:09"})
