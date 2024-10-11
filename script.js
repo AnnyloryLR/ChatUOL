@@ -124,6 +124,7 @@ function addMessage(){
   if(messageMode === 'Público'){
     type = "message"
     let localMessage = axios.post(adress + "messages/"+ roomID, {from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
+    
     localMessage.then(processSuccessMessage)
     localMessage.catch(processErrorMessage)
    
@@ -131,6 +132,7 @@ function addMessage(){
   } else{
     type = "private_message"
     let localMessage = axios.post(adress + "messages/"+ roomID, {from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
+    console.log({from:user.name, to: recipientName, text:message, type:type, time:"08:04:50"})
     localMessage.then(processSuccessMessage)
     localMessage.catch(processErrorMessage)
     
@@ -178,10 +180,20 @@ function addStatus(){
   return messages;
 }
 
+function listRefresh(){
+  if(messages.length !== 0){
+    let messageList = document.querySelector('.messages');
+    let lastMessage = messageList.lastChild
+    lastMessage.scrollIntoView();
+  }
+
+}
+
 function messageRender(){ 
   let messageList = document.querySelector('.messages');
   messageList.innerHTML = "";
     for(let i=0; i < messages.length; i++){
+     
       if(messages[i].type === "message"){
        messageList.innerHTML+= ` 
          <li class="white-box chat">
@@ -189,16 +201,17 @@ function messageRender(){
          </li>`
      
      } else if(messages[i].type === "private_message"){
-              if(messages[i].from === user || messages[i].to === user){
-                console.log(messages[i].from === user || messages[i].to === user)
+              if(messages[i].from === user.name || messages[i].to === user.name){
+                
  
        messageList.innerHTML+=`
          <li class="red-box private">
            <p class="message"><time datetime="2024-10-09 10:25:00">(${messages[i].time})</time> <b class="name">${messages[i].from}</b> reservadamente para <b class="recipient">${messages[i].to}</b>: ${messages[i].text}</p> 
          </li>`
-        }
+              }
+       
 
-     } else if(messages[i].type === "status"){
+    } else if(messages[i].type === "status"){
        messageList.innerHTML+=`
          <li class="gray-box statusMessage">
            <p class="message"><time datetime="2024-10-09 10:25:00">(${messages[i].time})</time> <b class="name">${messages[i].from}</b> ${messages[i].text}</p> 
@@ -209,13 +222,6 @@ function messageRender(){
     }
   
   listRefresh();
-
-}
-
-function listRefresh(){
-  let messageList = document.querySelector('.messages');
-  let lastMessage = messageList.lastChild
-  lastMessage.scrollIntoView();
 
 }
 
@@ -330,7 +336,7 @@ getUsersFromServer()
 
 //keep system running
 
-setInterval(getMessages, 10000)
+setInterval(getMessages, 7000)
 setInterval(keepUsersConnected, 5000)
 setInterval(getUsersFromServer, 10000)
 
