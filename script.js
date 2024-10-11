@@ -142,19 +142,6 @@ function addMessage(){
  
 }  
 
-function addMessagesToServer(){
-  if(messages.length !== 0){
-    for(let c=0; c < messages.length; c++){
-      promiseUsers = axios.post(adress + "messages/" + roomID, messages[c]);
-      promiseUsers.then(processSuccess);
-      promiseUsers.catch(processError);
-    } 
-    
-  }
-  messages =[]
-  return messages
-
-}
 
 function getMessages(){
   let promise = axios.get(adress + "messages/"+ roomID);
@@ -171,7 +158,6 @@ function processData(answer){
     messages = answer.data;
     lastStatus = messages.filter(message => message.type === "status");
     messages = messages.filter( message => message.type === "message" || message.type === "private_message"); 
-    console.log("pegou a lista", messages)
     addStatus()
     
     return messages, lastStatus;
@@ -344,7 +330,7 @@ getUsersFromServer()
 
 //keep system running
 
-//setInterval(getMessages, 10000)
+setInterval(getMessages, 10000)
 setInterval(keepUsersConnected, 5000)
 setInterval(getUsersFromServer, 10000)
 
