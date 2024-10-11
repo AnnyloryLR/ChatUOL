@@ -336,7 +336,7 @@ getUsersFromServer()
 
 //keep system running
 
-setInterval(getMessages, 7000)
+setInterval(getMessages, 3000)
 setInterval(keepUsersConnected, 5000)
 setInterval(getUsersFromServer, 10000)
 
