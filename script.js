@@ -26,6 +26,7 @@ function processUserError(answer){
 }
 
 function processUserSuccess(answer){
+  console.log(answer);
   getUsersFromServer();
   
 }
@@ -67,6 +68,7 @@ function renderUsers(){
 }
 
 function processUsersSuccess(answer){
+  users = [];
   let fixedUsers = [{name:"João"}, {name:"Maria"}]
   let loggedUsers = [];
   loggedUsers = fixedUsers.concat(answer.data);
@@ -84,13 +86,20 @@ function getUsersFromServer(){
 
 } 
 
-function keepUsersConnected(){
-  for(let counter=0; counter < users.length; counter++){
-    let promiseConnect = axios.post(adress+'participants/'+roomID, users[counter]);
+function processSuccess(answer){
+  console.log(answer)
+
+}
+
+function processError(error){
+  console.log(error)
+
+}
+
+function keepUserConnected(){
+    let promiseConnect = axios.post(adress+'participants/'+roomID, user);
     promiseConnect.then(processSuccess);
     promiseConnect.catch(processError);
-
-  }
 
 }
 
@@ -225,16 +234,6 @@ function reloading(){
   location.reload();
 }
 
-function processSuccess(answer){
-  console.log(answer)
-
-}
-
-function processError(error){
-  console.log(error)
-
-}
-
 //structure interaction functions
 function accessSidebar(){
   element = document.querySelector(".sidebar");
@@ -332,7 +331,7 @@ messageRender()
 //keep system running
 
 setInterval(getMessages, 3000);
-setInterval(keepUsersConnected, 5000);
+setInterval(keepUserConnected, 5000);
 setInterval(getUsersFromServer, 10000);
 
 
