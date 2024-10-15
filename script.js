@@ -48,6 +48,18 @@ function addUser(){
  
 }
 
+function processUsersSuccess(answer){
+  users = [];
+  let fixedUsers = [{name:"João"}, {name:"Maria"}]
+  let loggedUsers = [];
+  loggedUsers = fixedUsers.concat(answer.data);
+  users = loggedUsers;
+  renderUsers()
+  loggedUsers = []
+
+  return users
+}
+
 function renderUsers(){
   let usersList = document.querySelector('.userList');
   usersList.innerHTML="";
@@ -65,18 +77,6 @@ function renderUsers(){
 
   }
   
-}
-
-function processUsersSuccess(answer){
-  users = [];
-  let fixedUsers = [{name:"João"}, {name:"Maria"}]
-  let loggedUsers = [];
-  loggedUsers = fixedUsers.concat(answer.data);
-  users = loggedUsers;
-  renderUsers()
-  loggedUsers = []
-
-  return users
 }
 
 function getUsersFromServer(){
@@ -197,8 +197,7 @@ function listRefresh(){
 function messageRender(){ 
   let messageList = document.querySelector('.messages');
   messageList.innerHTML = "";
-    for(let i=0; i < messages.length; i++){
-     
+    for(let i=0; i < messages.length; i++){ 
       if(messages[i].type === "message"){
        messageList.innerHTML+= ` 
          <li class="white-box chat">
