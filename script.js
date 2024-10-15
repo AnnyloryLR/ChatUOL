@@ -46,24 +46,6 @@ function addUser(){
   postUser.catch(processUserError);
   users.push(user);
  
-   
-  let postUser = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants/5a972b09-b6cb-423f-a5b1-857f07831167", user)
-  postUser.then(processUserSuccess);
-  postUser.catch(processUserError);
-  users.push(user);
- 
-}
-
-function processUsersSuccess(answer){
-  users = [];
-  let fixedUsers = [{name:"João"}, {name:"Maria"}]
-  let loggedUsers = [];
-  loggedUsers = fixedUsers.concat(answer.data);
-  users = loggedUsers;
-  renderUsers()
-  loggedUsers = []
-
-  return users
 }
 
 function renderUsers(){
@@ -103,20 +85,7 @@ function getUsersFromServer(){
   getUsers.catch(processError);  
 
 } 
-} 
 
-function processSuccess(answer){
-  console.log(answer)
-
-}
-
-function processError(error){
-  console.log(error)
-
-}
-
-function keepUserConnected(){
-    let promiseConnect = axios.post(adress+'participants/'+roomID, user);
 function processSuccess(answer){
   console.log(answer)
 
@@ -172,8 +141,6 @@ function addMessage(){
    
  
 }  
- 
-}  
 
 function processData(answer){
   if(answer.data.length === 0){
@@ -183,12 +150,8 @@ function processData(answer){
     messagesFromServer = answer.data;
     lastStatus = messagesFromServer.filter(message => message.type === "status");
     messagesFromServer = messagesFromServer.filter( message => message.type === "message" || message.type === "private_message"); 
-    messagesFromServer = answer.data;
-    lastStatus = messagesFromServer.filter(message => message.type === "status");
-    messagesFromServer = messagesFromServer.filter( message => message.type === "message" || message.type === "private_message"); 
     addStatus()
     
-    return messagesFromServer, lastStatus;
     return messagesFromServer, lastStatus;
   }  
   
@@ -200,35 +163,12 @@ function addStatus(){
     {from:"Maria", to: "João", text:"Oi João :)",type:"private_message", time:"08:03:50" },
     {from:"João", to: "Maria", text:"Oi gatinha quer tc?", type:"private_message", time:"08:04:50"},
     {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}]
-  messages = [{from:"João", to: "Todos", text:"entra na sala...", type:"status", time:"08:01:50"},
-    {from:"João", to: "Todos", text:"Bom dia", type:"message", time:"08:02:50"},
-    {from:"Maria", to: "João", text:"Oi João :)",type:"private_message", time:"08:03:50" },
-    {from:"João", to: "Maria", text:"Oi gatinha quer tc?", type:"private_message", time:"08:04:50"},
-    {from:"Maria", to: "Todos", text:"sai da sala...", type:"status", time:"08:04:50"}]
   lastStatus = lastStatus.slice((lastStatus.length - 10), lastStatus.length)
  
   for(let g =0; g < messagesFromServer.length; g++){
     messages.push(messagesFromServer[g]);
     messages.push(lastStatus[g]);
-  for(let g =0; g < messagesFromServer.length; g++){
-    messages.push(messagesFromServer[g]);
-    messages.push(lastStatus[g]);
   }
-  
-  messageRender();
-  messagesFromServer = [];
-  messages = []
-}
-
-
-function getMessages(){
-  let promise = axios.get(adress + "messages/"+ roomID);
-  promise.then(processData);
-  promise.catch(processError);
-  
-}
-
-
   
   messageRender();
   messagesFromServer = [];
@@ -257,7 +197,8 @@ function listRefresh(){
 function messageRender(){ 
   let messageList = document.querySelector('.messages');
   messageList.innerHTML = "";
-    for(let i=0; i < messages.length; i++){ 
+    for(let i=0; i < messages.length; i++){
+     
       if(messages[i].type === "message"){
        messageList.innerHTML+= ` 
          <li class="white-box chat">
@@ -384,7 +325,6 @@ function statusText(){
 
 //start system 
 
-addUser()
 addUser()
 messageRender()
 
